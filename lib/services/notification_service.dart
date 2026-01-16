@@ -300,7 +300,7 @@ class NotificationService {
 
     final first = todaysDays.first.title;
     final remaining = todaysDays.length - 1;
-    final otherLabel = remaining == 1 ? 'autre thème' : 'autres thèmes';
+    final otherLabel = remaining == 1 ? 'autre à fêter' : 'autres à fêter';
     return "Aujourd'hui, c'est $first et $remaining $otherLabel en plus 🎉";
   }
 
