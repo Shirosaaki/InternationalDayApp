@@ -150,6 +150,88 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
+              if (widget.settingsController.notificationsEnabled)
+                Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              NotificationService().testNotification();
+                            },
+                            child: const Text('📬 Test immédiat'),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              NotificationService().testScheduledNotification();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Notification programmée dans 30 secondes...'),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                              // Check pending notifications
+                              await Future.delayed(const Duration(milliseconds: 500));
+                              final pending = await NotificationService().getPendingNotifications();
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('${pending.length} notification(s) en attente'),
+                                    duration: const Duration(seconds: 2),
+                                  ),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                            ),
+                            child: const Text('⏰ Test dans 30 sec'),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              final canSchedule = await NotificationService().canScheduleExactAlarms();
+                              if (context.mounted) {
+                                if (canSchedule) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('✅ Permission alarmes exactes: ACCORDÉE'),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('❌ Permission alarmes exactes: REFUSÉE - Ouverture des paramètres...'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                  await Future.delayed(const Duration(seconds: 1));
+                                  await NotificationService().openAlarmSettings();
+                                }
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple,
+                            ),
+                            child: const Text('🔐 Vérifier permission alarmes'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               const SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.all(16),

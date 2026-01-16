@@ -6,6 +6,7 @@ import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
