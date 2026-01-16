@@ -3,6 +3,7 @@ import '../controllers/settings_controller.dart';
 import 'schedule_page.dart';
 import 'quiz_page.dart';
 import 'settings_page.dart';
+import '../theme/app_theme.dart';
 
 class HomePage extends StatefulWidget {
   final SettingsController settingsController;
@@ -55,7 +56,12 @@ class _HomePageState extends State<HomePage> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+        backgroundColor: Colors.white,
+        selectedItemColor: AppTheme.primaryColor,
+        unselectedItemColor: Colors.grey,
+        elevation: 8,
       ),
     );
   }
 }
+

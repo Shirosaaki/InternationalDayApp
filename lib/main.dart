@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'controllers/settings_controller.dart';
 import 'pages/home_page.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -28,17 +29,8 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('fr', 'FR'),
           ],
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-            useMaterial3: true,
-          ),
-          darkTheme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.blue, 
-              brightness: Brightness.dark,
-            ),
-            useMaterial3: true,
-          ),
+          theme: AppTheme.lightTheme(),
+          darkTheme: AppTheme.darkTheme(),
           themeMode: settingsController.themeMode,
           home: HomePage(settingsController: settingsController),
         );
